@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тайна цифрового криптекса</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white font-mono">
+    <!-- Основной контейнер -->
+    <div id="app" class="min-h-screen flex flex-col">
+        
+        <!-- Заставка -->
+        <div id="splash-screen" class="splash-screen flex flex-col items-center justify-center min-h-screen p-4">
+            <div class="text-center max-w-4.2xl">
+                <div class="logo-container mb-8">
+                    <div class="digital-logo">
+                        <span class="logo-digit">1</span>
+                        <span class="logo-digit">0</span>
+                        <span class="logo-digit">1</span>
+                        <span class="logo-digit">0</span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold mt-6 text-cyber-blue">ТАЙНА ЦИФРОВОГО КРИПТЕКСА</h1>
+                </div>
+                
+                <div class="story-intro bg-gray-800 rounded-xl p-6 mb-8">
+                    <p class="text-lg md:text-xl mb-4 typing-animation">
+                        <span class="text-cyber-green">>_</span> Из цифрового музея университета похищен древний артефакт — "Криптекс знаний".
+                    </p>
+                    <p class="text-lg md:text-xl mb-4 typing-animation" style="animation-delay: 1.5s">
+                        <span class="text-cyber-green">>_</span> Преступник оставил следы в системе, но они зашифрованы.
+                    </p>
+                    <p class="text-lg md:text-xl typing-animation" style="animation-delay: 3s">
+                        <span class="text-cyber-green">>_</span> Тебе предстоит стать цифровым детективом и раскрыть это преступление!
+                    </p>
+                </div>
+                
+                <button id="start-btn" class="start-btn px-10 py-5 text-2xl font-bold rounded-xl transform transition-all duration-300 hover:scale-110 hover:shadow-2xl active:scale-105 group mb-4">
+                    <div class="flex items-center justify-center">
+                        <i class="fas fa-user-secret mr-4 text-2xl group-hover:rotate-12 transition-transform"></i>
+                        <span class="relative">
+                            <span class="absolute -inset-1 bg-gradient-to-r from-cyber-green via-cyber-blue to-cyber-purple rounded-lg blur opacity-50 group-hover:opacity-75 transition duration-300"></span>
+                            <span class="relative">Принять вызов</span>
+                        </span>
+                        <i class="fas fa-arrow-right ml-4 text-xl group-hover:translate-x-2 transition-transform"></i>
+                    </div>
+                </button>
+                <div class="text-sm opacity-70 mb-8">Нажми, чтобы начать расследование</div>
+                
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl">
+                        <i class="fas fa-code text-4xl mb-4 text-cyber-green"></i>
+                        <h3 class="text-xl font-bold mb-2">Навыки ИСиТ</h3>
+                        <p class="text-gray-300">Анализ данных, программирование, восстановление систем</p>
+                    </div>
+                    <div class="skill-card bg-gray-800 p-6 rounded-xl">
+                        <i class="fas fa-shield-alt text-4xl mb-4 text-cyber-purple"></i>
+                        <h3 class="text-xl font-bold mb-2">Навыки БИСиТ</h3>
+                        <p class="text-gray-300">Шифрование, поиск уязвимостей, следственный анализ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Шапка прогресса -->
+        <div id="progress-container" class="hidden fixed top-0 left-0 right-0 z-50 bg-gray-800 border-b-2 border-cyber-blue shadow-lg">
+            <div id="progress-bar" class="h-2 bg-gradient-to-r from-cyber-green via-cyber-blue to-cyber-purple transition-all duration-500"></div>
+            <div class="flex justify-between items-center px-4 py-3 text-sm">
+                <div class="flex items-center space-x-4">
+                    <span class="bg-gray-700 px-3 py-1 rounded-full">Дело: <span id="current-case">01</span>/05</span>
+                    <span class="bg-gray-700 px-3 py-1 rounded-full">Следы: <span id="clue-counter">0</span>/5</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-cyber-green font-bold">ИСиТ: <span id="isit-score">0</span></span>
+                    <span class="text-cyber-purple font-bold">БИСиТ: <span id="bist-score">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основной контент квеста -->
+        <div id="quest-container" class="hidden flex-grow container mx-auto px-4 py-8 mt-16">
+            
+            <!-- Этап 1 -->
+            <div id="stage-1" class="quest-stage hidden">
+                <div class="case-header mb-8">
+                    <div class="case-tag">Дело #01</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Расшифровка сообщения</h2>
+                    <p class="text-gray-400 mt-2">Преступник оставил зашифрованное сообщение в логах системы</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="evidence-card">
+                            <div class="evidence-header">
+                                <i class="fas fa-file-code"></i>
+                                <h3>Найденный файл: <span class="text-cyber-green">log_encrypted.txt</span></h3>
+                            </div>
+                            <div class="evidence-content">
+                                <div class="encrypted-text">
+                                    <p>Uijt jt b tfdsfu nfttbhf: Dpvofs Qsphsbn</p>
+                                    <p>Gmpxfs Joo 2024</p>
+                                    <p>Kvtv xbou up tff zpv xifo zpv hfu uif sfbm uijoh</p>
+                                </div>
+                                <div class="clue-hint mt-4">
+                                    <i class="fas fa-lightbulb text-yellow-400 mr-3 text-xl"></i>
+                                    <div>
+                                        <span class="font-bold text-yellow-300">Подсказка:</span>
+                                        <p class="mt-1 text-gray-300">Каждая буква заменена на следующую в алфавите (шифр Цезаря со сдвигом +1). Например, буква "U" заменяет букву "T".</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="puzzle-card mt-6">
+                            <h3 class="text-xl font-bold mb-4">Задача: расшифруй сообщение</h3>
+                            <p class="mb-4">Используй навыки криптоанализа, чтобы расшифровать текст. Введи расшифрованное сообщение:</p>
+                            
+                            <div class="puzzle-input">
+                                <input type="text" id="puzzle-1-answer" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg mb-4" placeholder="Введите расшифрованный текст здесь...">
+                                <button id="puzzle-1-check" class="puzzle-check-btn">
+                                    <i class="fas fa-key mr-2"></i>Расшифровать
+                                </button>
+                                <div id="puzzle-1-feedback" class="mt-4 hidden"></div>
+                            </div>
+                            
+                            <div class="skill-hint mt-6">
+                                <span class="skill-badge bist">БИСиТ</span>
+                                <p class="text-sm mt-2">Это задание развивает навыки криптоанализа — ключевую компетенцию в безопасности информационных систем</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="case-visual">
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <div class="terminal-dots">
+                                        <span class="dot red"></span>
+                                        <span class="dot yellow"></span>
+                                        <span class="dot green"></span>
+                                    </div>
+                                    <span class="terminal-title">Дешифратор v1.0</span>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="terminal-line"><span class="prompt">$</span> загружен файл: log_encrypted.txt</div>
+                                    <div class="terminal-line"><span class="prompt">$</span> анализ шифра...</div>
+                                    <div class="terminal-line"><span class="prompt">$</span> обнаружен шифр Цезаря (сдвиг: +1)</div>
+                                    <div class="terminal-line"><span class="prompt">$</span> > введите расшифрованный текст:</div>
+                                    <div class="terminal-line input-line">
+                                        <span class="prompt">></span>
+                                        <span id="typed-text" class="typed-text"></span>
+                                        <span class="cursor">|</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-facts mt-8">
+                            <h4 class="text-lg font-bold mb-3">Факты дела:</h4>
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-circle text-xs mr-2 text-cyber-green"></i>Время кражи: 02:47 ночи</li>
+                                <li><i class="fas fa-circle text-xs mr-2 text-cyber-green"></i>Система безопасности была отключена</li>
+                                <li><i class="fas fa-circle text-xs mr-2 text-cyber-green"></i>Оставлено 3 цифровых следа</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Этап 2 -->
+            <div id="stage-2" class="quest-stage hidden">
+                <div class="case-header mb-8">
+                    <div class="case-tag">Дело #02</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Восстановление логов</h2>
+                    <p class="text-gray-400 mt-2">Часть файла с логами доступа повреждена, нужно восстановить логин пользователя</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="evidence-card">
+                            <div class="evidence-header">
+                                <i class="fas fa-database"></i>
+                                <h3>Поврежденный файл: <span class="text-cyber-green">access_log.txt</span></h3>
+                            </div>
+                            <div class="evidence-content">
+                                <div class="corrupted-data">
+                                    <p class="mb-2">Файл содержит записи о доступе к системе:</p>
+                                    <div class="log-entries bg-gray-900 p-4 rounded-lg">
+                                        <div class="log-entry">2024-05-15 14:23:11 | admin | успешно</div>
+                                        <div class="log-entry">2024-05-15 14:30:45 | user1 | ошибка</div>
+                                        <div class="log-entry damaged">2024-05-15 02:47:22 | ███████ | успешно</div>
+                                        <div class="log-entry">2024-05-15 08:15:33 | user2 | успешно</div>
+                                    </div>
+                                    <p class="mt-4">Запись в 02:47:22 повреждена. Известно, что логин состоит из 6 букв и содержит подстроку "tech".</p>
+                                </div>
+                                <div class="clue-hint mt-4">
+                                    <i class="fas fa-lightbulb text-yellow-400 mr-3 text-xl"></i>
+                                    <div>
+                                        <span class="font-bold text-yellow-300">Подсказка:</span>
+                                        <p class="mt-1 text-gray-300">Логин состоит из 6 букв, содержит "tech". В базе данных есть пользователи: admin, user1, user2, <strong>techie</strong>, developer, security.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="puzzle-card mt-6">
+                            <h3 class="text-xl font-bold mb-4">Задача: восстанови логин</h3>
+                            <p class="mb-4">Используя подсказки, определи какой логин был использован в 02:47:22:</p>
+                            
+                            <div class="puzzle-input">
+                                <div class="space-y-3 mb-6">
+                                    <div class="login-option">
+                                        <input type="radio" name="login" id="login-1" class="login-radio">
+                                        <label for="login-1" class="login-label">admin</label>
+                                    </div>
+                                    <div class="login-option">
+                                        <input type="radio" name="login" id="login-2" class="login-radio">
+                                        <label for="login-2" class="login-label">user1</label>
+                                    </div>
+                                    <div class="login-option">
+                                        <input type="radio" name="login" id="login-3" class="login-radio">
+                                        <label for="login-3" class="login-label">user2</label>
+                                    </div>
+                                    <div class="login-option">
+                                        <input type="radio" name="login" id="login-4" class="login-radio">
+                                        <label for="login-4" class="login-label">techie</label>
+                                    </div>
+                                    <div class="login-option">
+                                        <input type="radio" name="login" id="login-5" class="login-radio">
+                                        <label for="login-5" class="login-label">developer</label>
+                                    </div>
+                                </div>
+                                
+                                <button id="puzzle-2-check" class="puzzle-check-btn">
+                                    <i class="fas fa-search mr-2"></i>Проверить логин
+                                </button>
+                                <div id="puzzle-2-feedback" class="mt-4 hidden"></div>
+                            </div>
+                            
+                            <div class="skill-hint mt-6">
+                                <span class="skill-badge isit">ИСиТ</span>
+                                <p class="text-sm mt-2">Восстановление поврежденных данных и анализ логов — важный навык для специалистов по информационным системам</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="case-visual">
+                            <div class="database-viewer">
+                                <div class="db-header">
+                                    <span class="db-title">База пользователей</span>
+                                </div>
+                                <div class="db-body">
+                                    <div class="db-row header">
+                                        <span class="db-field">ID</span>
+                                        <span class="db-field">Логин</span>
+                                        <span class="db-field">Роль</span>
+                                    </div>
+                                    <div class="db-row">
+                                        <span class="db-value">1</span>
+                                        <span class="db-value">admin</span>
+                                        <span class="db-value">Администратор</span>
+                                    </div>
+                                    <div class="db-row">
+                                        <span class="db-value">2</span>
+                                        <span class="db-value">user1</span>
+                                        <span class="db-value">Пользователь</span>
+                                    </div>
+                                    <div class="db-row">
+                                        <span class="db-value">3</span>
+                                        <span class="db-value">user2</span>
+                                        <span class="db-value">Пользователь</span>
+                                    </div>
+                                    <div class="db-row highlight">
+                                        <span class="db-value">4</span>
+                                        <span class="db-value">techie</span>
+                                        <span class="db-value">Технический специалист</span>
+                                    </div>
+                                    <div class="db-row">
+                                        <span class="db-value">5</span>
+                                        <span class="db-value">developer</span>
+                                        <span class="db-value">Разработчик</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-facts mt-8">
+                            <h4 class="text-lg font-bold mb-3">Подсказка:</h4>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <p>Анализ записей:</p>
+                                <ul class="mt-2 space-y-1">
+                                    <li>✓ Время соответствует времени кражи (02:47)</li>
+                                    <li>✓ Доступ был успешным</li>
+                                    <li>✓ Логин состоит из 6 букв</li>
+                                    <li>✓ Содержит подстроку "tech"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Этап 3 -->
+            <div id="stage-3" class="quest-stage hidden">
+                <div class="case-header mb-8">
+                    <div class="case-tag">Дело #03</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Анализ кода</h2>
+                    <p class="text-gray-400 mt-2">В системе обнаружен подозрительный фрагмент кода</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="evidence-card">
+                            <div class="evidence-header">
+                                <i class="fas fa-bug"></i>
+                                <h3>Подозрительный код: <span class="text-cyber-green">auth_system.py</span></h3>
+                            </div>
+                            <div class="evidence-content">
+                                <div class="code-snippet">
+                                    <pre><code>def check_password(user_input, stored_hash):
+    # Уязвимость здесь!
+    if user_input == stored_hash:
+        return True
+    return False
+
+def get_user_data(username):
+    query = "SELECT * FROM users WHERE username = '" + username + "';"
+    # Выполнение запроса к базе данных
+    result = database.execute(query)
+    return result</code></pre>
+                                </div>
+                                <div class="clue-hint mt-4">
+                                    <i class="fas fa-lightbulb text-yellow-400 mr-3 text-xl"></i>
+                                    <div>
+                                        <span class="font-bold text-yellow-300">Подсказка:</span>
+                                        <p class="mt-1 text-gray-300">В коде есть две серьезные уязвимости. Посмотри на строку с SQL-запросом и сравнение пароля с хешем.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="puzzle-card mt-6">
+                            <h3 class="text-xl font-bold mb-4">Задача: найди уязвимости</h3>
+                            <p class="mb-4">Отметь все уязвимости, которые ты обнаружил в коде:</p>
+                            
+                            <div class="puzzle-input">
+                                <div class="space-y-3 mb-6">
+                                    <div class="vulnerability-option">
+                                        <input type="checkbox" id="vuln-1" class="custom-checkbox">
+                                        <label for="vuln-1" class="custom-checkbox-label">
+                                            <span class="custom-checkbox-checkmark"></span>
+                                            <span class="ml-3">Сравнение пароля с хешем напрямую</span>
+                                        </label>
+                                    </div>
+                                    <div class="vulnerability-option">
+                                        <input type="checkbox" id="vuln-2" class="custom-checkbox">
+                                        <label for="vuln-2" class="custom-checkbox-label">
+                                            <span class="custom-checkbox-checkmark"></span>
+                                            <span class="ml-3">Использование устаревшей библиотеки</span>
+                                        </label>
+                                    </div>
+                                    <div class="vulnerability-option">
+                                        <input type="checkbox" id="vuln-3" class="custom-checkbox">
+                                        <label for="vuln-3" class="custom-checkbox-label">
+                                            <span class="custom-checkbox-checkmark"></span>
+                                            <span class="ml-3">SQL-инъекция в параметре username</span>
+                                        </label>
+                                    </div>
+                                    <div class="vulnerability-option">
+                                        <input type="checkbox" id="vuln-4" class="custom-checkbox">
+                                        <label for="vuln-4" class="custom-checkbox-label">
+                                            <span class="custom-checkbox-checkmark"></span>
+                                            <span class="ml-3">Отсутствие обработки ошибок</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <button id="puzzle-3-check" class="puzzle-check-btn">
+                                    <i class="fas fa-shield-alt mr-2"></i>Проверить ответ
+                                </button>
+                                <div id="puzzle-3-feedback" class="mt-4 hidden"></div>
+                            </div>
+                            
+                            <div class="skill-hint mt-6">
+                                <span class="skill-badge bist">БИСиТ</span>
+                                <p class="text-sm mt-2">Поиск уязвимостей в коде — ключевой навык специалиста по безопасности информационных систем</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="case-visual">
+                            <div class="vulnerability-scanner">
+                                <div class="scanner-header">
+                                    <span class="scanner-title">Сканер уязвимостей v2.1</span>
+                                    <span class="scanner-status">Запуск анализа...</span>
+                                </div>
+                                <div class="scanner-body">
+                                    <div class="scan-line">
+                                        <span class="scan-icon"><i class="fas fa-search"></i></span>
+                                        <span class="scan-text">Анализ функции check_password...</span>
+                                        <span class="scan-result" id="scan-result-1"></span>
+                                    </div>
+                                    <div class="scan-line">
+                                        <span class="scan-icon"><i class="fas fa-search"></i></span>
+                                        <span class="scan-text">Анализ функции get_user_data...</span>
+                                        <span class="scan-result" id="scan-result-2"></span>
+                                    </div>
+                                    <div class="scan-line">
+                                        <span class="scan-icon"><i class="fas fa-search"></i></span>
+                                        <span class="scan-text">Проверка на SQL-инъекции...</span>
+                                        <span class="scan-result" id="scan-result-3"></span>
+                                    </div>
+                                    <div class="scan-progress">
+                                        <div class="progress-bar-inner" id="scan-progress"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-facts mt-8">
+                            <h4 class="text-lg font-bold mb-3">Типы уязвимостей:</h4>
+                            <ul class="space-y-2">
+                                <li><span class="text-cyber-pink">Уязвимость сравнения</span> — пароль никогда не должен сравниваться с хешем напрямую</li>
+                                <li><span class="text-cyber-pink">SQL-инъекция</span> — конкатенация строк в SQL-запросе позволяет внедрить вредоносный код</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Этап 4 -->
+            <div id="stage-4" class="quest-stage hidden">
+                <div class="case-header mb-8">
+                    <div class="case-tag">Дело #04</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Анализ алгоритма доступа</h2>
+                    <p class="text-gray-400 mt-2">Преступник использовал слабость в алгоритме проверки доступа</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="evidence-card">
+                            <div class="evidence-header">
+                                <i class="fas fa-brain"></i>
+                                <h3>Алгоритм проверки доступа: <span class="text-cyber-green">access_control.log</span></h3>
+                            </div>
+                            <div class="evidence-content">
+                                <div class="logic-puzzle">
+                                    <p class="mb-4">В логах обнаружен алгоритм, который использовал преступник:</p>
+                                    <div class="algorithm bg-gray-800 p-4 rounded-lg mb-4">
+                                        <p class="font-mono text-sm">
+                                            1. Если пользователь из внутренней сети (192.168.x.x) И время между 00:00 и 06:00<br>
+                                            2. ИЛИ если пользователь имеет права администратора<br>
+                                            3. ТО доступ разрешен<br>
+                                            4. ИНАЧЕ доступ запрещен
+                                        </p>
+                                    </div>
+                                    <p class="mb-2">Известные факты:</p>
+                                    <ul class="space-y-1">
+                                        <li>✓ IP преступника: 192.168.1.25 (внутренняя сеть)</li>
+                                        <li>✓ Время атаки: 02:47 (между 00:00 и 06:00)</li>
+                                        <li>✓ Преступник использовал учетную запись без прав администратора</li>
+                                        <li>✓ Доступ был получен успешно</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="puzzle-card mt-6">
+                            <h3 class="text-xl font-bold mb-4">Задача: найди ошибку в алгоритме</h3>
+                            <p class="mb-4">Какая логическая ошибка в алгоритме позволила преступнику получить доступ?</p>
+                            
+                            <div class="puzzle-input">
+                                <div class="space-y-3 mb-6">
+                                    <div class="algorithm-option">
+                                        <input type="radio" name="algorithm" id="algo-1" class="algorithm-radio">
+                                        <label for="algo-1" class="algorithm-label">
+                                            Отсутствует проверка сложности пароля
+                                        </label>
+                                    </div>
+                                    <div class="algorithm-option">
+                                        <input type="radio" name="algorithm" id="algo-2" class="algorithm-radio">
+                                        <label for="algo-2" class="algorithm-label">
+                                            Алгоритм разрешает доступ из внутренней сети в ночное время без дополнительных проверок
+                                        </label>
+                                    </div>
+                                    <div class="algorithm-option">
+                                        <input type="radio" name="algorithm" id="algo-3" class="algorithm-radio">
+                                        <label for="algo-3" class="algorithm-label">
+                                            Отсутствует двухфакторная аутентификация
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <button id="puzzle-4-check" class="puzzle-check-btn">
+                                    <i class="fas fa-cogs mr-2"></i>Проверить решение
+                                </button>
+                                <div id="puzzle-4-feedback" class="mt-4 hidden"></div>
+                            </div>
+                            
+                            <div class="skill-hint mt-6">
+                                <span class="skill-badge isit">ИСиТ</span>
+                                <p class="text-sm mt-2">Анализ алгоритмов и логических условий — важный навык для разработки безопасных информационных систем</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="case-visual">
+                            <div class="logic-flowchart">
+                                <div class="flowchart-start">
+                                    <div class="flowchart-node">
+                                        <i class="fas fa-play text-cyber-blue"></i>
+                                        <span>Начало проверки</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flowchart-connector down"></div>
+                                
+                                <div class="flowchart-condition">
+                                    <div class="flowchart-node condition">
+                                        <i class="fas fa-question text-cyber-purple"></i>
+                                        <span>Внутренняя сеть И ночное время?</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flowchart-connector down"></div>
+                                
+                                <div class="flowchart-action allowed">
+                                    <div class="flowchart-node action">
+                                        <i class="fas fa-check-circle text-cyber-green"></i>
+                                        <span>Доступ разрешен</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-facts mt-8">
+                            <h4 class="text-lg font-bold mb-3">Логика алгоритма:</h4>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <p class="font-mono">
+                                    IF (внутренняя_сеть AND ночное_время) OR (права_администратора)<br>
+                                    THEN доступ_разрешен<br>
+                                    ELSE доступ_запрещен
+                                </p>
+                                <p class="mt-3 text-cyber-green">Преступник использовал внутреннюю сеть в ночное время → Доступ разрешен!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Этап 5 -->
+            <div id="stage-5" class="quest-stage hidden">
+                <div class="case-header mb-8">
+                    <div class="case-tag">Дело #05</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Сбор улик и выводы</h2>
+                    <p class="text-gray-400 mt-2">Все улики собраны. Проанализируй информацию и сделай вывод</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="evidence-card">
+                            <div class="evidence-header">
+                                <i class="fas fa-user-secret"></i>
+                                <h3>Собранные улики</h3>
+                            </div>
+                            <div class="evidence-content">
+                                <div class="clues-timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h4 class="font-bold text-cyber-green">Улика 1: Зашифрованное сообщение</h4>
+                                            <p class="text-sm">"Counter Program Flower Inn 2024" — возможно, мероприятие или место</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h4 class="font-bold text-cyber-green">Улика 2: Логи доступа</h4>
+                                            <p class="text-sm">В 02:47 успешный вход под логином "techie" с IP 192.168.1.25</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h4 class="font-bold text-cyber-green">Улика 3: Уязвимости в коде</h4>
+                                            <p class="text-sm">Преступник знал о уязвимостях в системе аутентификации</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <h4 class="font-bold text-cyber-green">Улика 4: Алгоритм доступа</h4>
+                                            <p class="text-sm">Использовал слабость в алгоритме проверки ночного доступа из внутренней сети</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="suspects mt-6">
+                                    <h4 class="font-bold mb-3">Подозреваемые:</h4>
+                                    <div class="space-y-4">
+                                        <div class="suspect-card" data-suspect="alexey">
+                                            <div class="suspect-header">
+                                                <div class="suspect-avatar">АП</div>
+                                                <div>
+                                                    <div class="suspect-name">Алексей Петров</div>
+                                                    <div class="suspect-role">Стажер отдела ИСиТ</div>
+                                                </div>
+                                            </div>
+                                            <div class="suspect-info">
+                                                <p>• Работает с 08:00 до 17:00</p>
+                                                <p>• Нет доступа к внутренней сети из дома</p>
+                                            </div>
+                                        </div>
+                                        <div class="suspect-card" data-suspect="maria">
+                                            <div class="suspect-header">
+                                                <div class="suspect-avatar">МС</div>
+                                                <div>
+                                                    <div class="suspect-name">Мария Смирнова</div>
+                                                    <div class="suspect-role">Специалист по безопасности</div>
+                                                </div>
+                                            </div>
+                                            <div class="suspect-info">
+                                                <p>• Иногда работает в ночную смену</p>
+                                                <p>• IP рабочей станции: 192.168.1.30</p>
+                                            </div>
+                                        </div>
+                                        <div class="suspect-card" data-suspect="dmitry">
+                                            <div class="suspect-header">
+                                                <div class="suspect-avatar">ДИ</div>
+                                                <div>
+                                                    <div class="suspect-name">Дмитрий Иванов</div>
+                                                    <div class="suspect-role">Администратор сети</div>
+                                                </div>
+                                            </div>
+                                            <div class="suspect-info">
+                                                <p>• IP рабочей станции: 192.168.1.25</p>
+                                                <p>• Логин в системе: "techie"</p>
+                                                <p>• Знает об уязвимостях в системе</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="puzzle-card mt-6">
+                            <h3 class="text-xl font-bold mb-4">Финальная задача: кто преступник?</h3>
+                            <p class="mb-4">На основе всех собранных улик, определи, кто совершил кражу:</p>
+                            
+                            <div class="puzzle-input">
+                                <div class="suspect-selection">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                        <div class="suspect-select" data-value="alexey">
+                                            <div class="select-avatar">АП</div>
+                                            <div class="select-name">Алексей Петров</div>
+                                            <div class="select-role">Стажер ИСиТ</div>
+                                        </div>
+                                        <div class="suspect-select" data-value="maria">
+                                            <div class="select-avatar">МС</div>
+                                            <div class="select-name">Мария Смирнова</div>
+                                            <div class="select-role">Спец. безопасности</div>
+                                        </div>
+                                        <div class="suspect-select" data-value="dmitry">
+                                            <div class="select-avatar">ДИ</div>
+                                            <div class="select-name">Дмитрий Иванов</div>
+                                            <div class="select-role">Админ сети</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <input type="hidden" id="final-suspect" value="">
+                                    
+                                    <button id="puzzle-5-check" class="puzzle-check-btn w-full py-4">
+                                        <i class="fas fa-gavel mr-2"></i>Вынести вердикт
+                                    </button>
+                                    <div id="puzzle-5-feedback" class="mt-4 hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="case-visual">
+                            <div class="evidence-connections">
+                                <div class="connection-node message" data-tooltip="Зашифрованное сообщение">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="connection-node logs" data-tooltip="Логи доступа">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="connection-node code" data-tooltip="Уязвимый код">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="connection-node algorithm" data-tooltip="Алгоритм доступа">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                
+                                <div class="connection-line line-1"></div>
+                                <div class="connection-line line-2"></div>
+                                <div class="connection-line line-3"></div>
+                                <div class="connection-line line-4"></div>
+                                
+                                <div class="connection-center">
+                                    <i class="fas fa-user-secret"></i>
+                                    <div class="center-label">Преступник</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-facts mt-8">
+                            <div class="motivation-analysis">
+                                <h4 class="text-lg font-bold mb-3">Мотивы и возможности:</h4>
+                                <div class="space-y-3">
+                                    <div class="motivation-item">
+                                        <div class="motivation-header">Кто имел доступ?</div>
+                                        <p>Только сотрудники с доступом к внутренней сети и знанием системы</p>
+                                    </div>
+                                    <div class="motivation-item">
+                                        <div class="motivation-header">Кто знал об уязвимостях?</div>
+                                        <p>Администраторы и специалисты по безопасности</p>
+                                    </div>
+                                    <div class="motivation-item">
+                                        <div class="motivation-header">Кто мог быть на месте в 02:47?</div>
+                                        <p>Сотрудники с ночным доступом или те, кто остался после работы</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Навигация -->
+            <div id="navigation" class="hidden mt-12 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <button id="prev-btn" class="nav-btn">
+                    <i class="fas fa-arrow-left mr-2"></i>Назад
+                </button>
+                
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <button id="hint-btn" class="hint-btn">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <span>Подсказка</span>
+                            <span class="hint-counter">(<span id="hint-counter">3</span>)</span>
+                        </button>
+                    </div>
+                    
+                    <div class="stage-progress">
+                        <div class="stage-dots">
+                            <span class="stage-dot active" data-stage="1"></span>
+                            <span class="stage-dot" data-stage="2"></span>
+                            <span class="stage-dot" data-stage="3"></span>
+                            <span class="stage-dot" data-stage="4"></span>
+                            <span class="stage-dot" data-stage="5"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="next-btn" class="nav-btn">
+                    Далее<i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Экран результатов -->
+        <div id="result-screen" class="hidden flex flex-col items-center justify-center min-h-screen p-8">
+            <div class="text-center max-w-4xl">
+                <div class="result-header mb-8">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-4 text-cyber-blue">РАССЛЕДОВАНИЕ ЗАВЕРШЕНО</h2>
+                    <p class="text-xl text-gray-300">Дело о краже Криптекса знаний раскрыто!</p>
+                </div>
+                
+                <div id="result-content" class="bg-gray-800 rounded-2xl p-8 mb-10">
+                    <!-- Результат будет вставлен сюда -->
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6">
+                    <button id="restart-btn" class="action-btn bg-cyber-green">
+                        <i class="fas fa-redo mr-2"></i>Начать новое расследование
+                    </button>
+                    <button id="details-btn" class="action-btn bg-cyber-blue">
+                        <i class="fas fa-university mr-2"></i>Узнать о направлениях
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно с подсказками -->
+        <div id="hint-modal" class="hint-modal hidden fixed inset-0 z-[9999] flex items-start justify-center pt-24">
+            <div class="hint-modal-overlay absolute inset-0 bg-black bg-opacity-80"></div>
+            <div class="hint-modal-content relative bg-gray-900 border-2 border-cyber-yellow rounded-xl w-full max-w-lg mx-4 overflow-hidden shadow-2xl">
+                <div class="hint-modal-header bg-gradient-to-r from-yellow-900/30 to-yellow-800/20 px-6 py-4 border-b border-yellow-700/50">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-lightbulb text-xl text-yellow-400 mr-3"></i>
+                            <h3 class="text-lg font-bold text-yellow-300">Подсказка</h3>
+                        </div>
+                        <button id="close-hint" class="hint-close-btn text-yellow-300 hover:text-white">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="hint-modal-body p-6 max-h-[60vh] overflow-y-auto">
+                    <div id="hint-text" class="text-gray-200"></div>
+                </div>
+                <div class="hint-modal-footer bg-gray-900/50 px-6 py-3 border-t border-gray-700/50">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400">Используйте подсказки с умом!</span>
+                        <span class="text-yellow-400 font-bold">Осталось: <span id="hints-remaining">3</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно с информацией о направлениях -->
+        <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+            <div class="bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-cyber-blue">Направления подготовки</h3>
+                        <button id="close-modal" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="specialty-info isit-info">
+                            <div class="specialty-header">
+                                <i class="fas fa-code text-4xl mb-4"></i>
+                                <h4 class="text-2xl font-bold mb-2">Информационные системы и технологии</h4>
+                                <div class="specialty-badge isit-tag">ИСиТ</div>
+                            </div>
+                            <div class="mt-6">
+                                <h5 class="text-xl font-bold mb-3 text-cyber-green">Что ты уже умеешь:</h5>
+                                <ul class="space-y-2">
+                                    <li><i class="fas fa-check text-cyber-green mr-2"></i>Анализировать и восстанавливать данные</li>
+                                    <li><i class="fas fa-check text-cyber-green mr-2"></i>Решать логические задачи</li>
+                                    <li><i class="fas fa-check text-cyber-green mr-2"></i>Понимать работу информационных систем</li>
+                                </ul>
+                            </div>
+                            <div class="mt-6">
+                                <h5 class="text-xl font-bold mb-3 text-cyber-green">Чему научишься:</h5>
+                                <ul class="space-y-2">
+                                    <li><i class="fas fa-laptop-code text-cyber-green mr-2"></i>Разработка программного обеспечения</li>
+                                    <li><i class="fas fa-database text-cyber-green mr-2"></i>Проектирование и администрирование баз данных</li>
+                                    <li><i class="fas fa-cloud text-cyber-green mr-2"></i>Создание веб-приложений и облачных систем</li>
+                                    <li><i class="fas fa-robot text-cyber-green mr-2"></i>Внедрение искусственного интеллекта и машинного обучения</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="specialty-info bist-info">
+                            <div class="specialty-header">
+                                <i class="fas fa-shield-alt text-4xl mb-4"></i>
+                                <h4 class="text-2xl font-bold mb-2">Безопасность информационных систем и технологий</h4>
+                                <div class="specialty-badge bist-tag">БИСиТ</div>
+                            </div>
+                            <div class="mt-6">
+                                <h5 class="text-xl font-bold mb-3 text-cyber-purple">Что ты уже умеешь:</h5>
+                                <ul class="space-y-2">
+                                    <li><i class="fas fa-check text-cyber-purple mr-2"></i>Расшифровывать сообщения</li>
+                                    <li><i class="fas fa-check text-cyber-purple mr-2"></i>Находить уязвимости в системах</li>
+                                    <li><i class="fas fa-check text-cyber-purple mr-2"></i>Проводить расследование цифровых инцидентов</li>
+                                </ul>
+                            </div>
+                            <div class="mt-6">
+                                <h5 class="text-xl font-bold mb-3 text-cyber-purple">Чему научишься:</h5>
+                                <ul class="space-y-2">
+                                    <li><i class="fas fa-user-secret text-cyber-purple mr-2"></i>Криптография и защита информации</li>
+                                    <li><i class="fas fa-search text-cyber-purple mr-2"></i>Анализ и мониторинг киберугроз</li>
+                                    <li><i class="fas fa-skull-crossbones text-cyber-purple mr-2"></i>Тестирование на проникновение (пентестинг)</li>
+                                    <li><i class="fas fa-gavel text-cyber-purple mr-2"></i>Расследование киберинцидентов и компьютерная криминалистика</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10 p-6 bg-gray-800 rounded-xl">
+                        <h4 class="text-xl font-bold mb-3 text-cyber-blue">Где работают выпускники:</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="employer-item">
+                                <i class="fas fa-building text-2xl mb-2"></i>
+                                <p>IT-компании</p>
+                            </div>
+                            <div class="employer-item">
+                                <i class="fas fa-university text-2xl mb-2"></i>
+                                <p>Банки и финтех</p>
+                            </div>
+                            <div class="employer-item">
+                                <i class="fas fa-shield-alt text-2xl mb-2"></i>
+                                <p>Кибербезопасность</p>
+                            </div>
+                            <div class="employer-item">
+                                <i class="fas fa-rocket text-2xl mb-2"></i>
+                                <p>Стартапы</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
