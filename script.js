@@ -27,6 +27,67 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModal = document.getElementById('close-modal');
     const stageDots = document.querySelectorAll('.stage-dot');
     
+
+    // Обнаружение мобильного устройства
+    const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+
+    // Функция для мобильной оптимизации
+    function optimizeForMobile() {
+        if (!isMobile) return;
+        
+        // Увеличиваем время для анимаций на мобильных
+        document.querySelectorAll('[style*="animation-delay"]').forEach(el => {
+            const currentDelay = el.style.animationDelay;
+            if (currentDelay) {
+                const delayValue = parseFloat(currentDelay);
+                el.style.animationDelay = (delayValue * 1.5) + 's';
+            }
+        });
+        
+        // Делаем подсказки более заметными на мобильных
+        const originalShowNextStepHint = window.showNextStepHint;
+        if (originalShowNextStepHint) {
+            window.showNextStepHint = function(message) {
+                const hint = originalShowNextStepHint(message);
+                // Увеличиваем время показа подсказки на мобильных
+                if (hint.timeoutId) {
+                    clearTimeout(hint.timeoutId);
+                    hint.timeoutId = setTimeout(() => {
+                        if (hint.parentNode) {
+                            hint.style.opacity = '0';
+                            hint.style.transform = 'translate(-50%, 10px)';
+                            setTimeout(() => hint.remove(), 300);
+                        }
+                    }, 15000); // 15 секунд вместо 10
+                }
+                return hint;
+            };
+        }
+        
+        // Улучшаем обработку касаний
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        
+        // Предотвращаем масштабирование при двойном тапе
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    }
+
+    // Вызываем оптимизацию при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        optimizeForMobile();
+        
+        // Добавляем класс для мобильных устройств
+        if (isMobile) {
+            document.body.classList.add('is-mobile');
+        }
+    });
+
     // Данные квеста
     let currentStage = 1;
     let userChoices = { isit: 0, bist: 0 };

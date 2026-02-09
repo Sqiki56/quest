@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Тайна цифрового криптекса</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,7 +14,7 @@
     <div id="app" class="min-h-screen flex flex-col">
         
         <!-- Заставка -->
-        <div id="splash-screen" class="splash-screen flex flex-col items-center justify-center min-h-screen p-4">
+        <div id="splash-screen" class="splash-screen flex flex-col items-center justify-center min-h-screen p-4 mobile-splash">
             <div class="text-center max-w-4.2xl">
                 <div class="logo-container mb-8">
                     <div class="digital-logo">
@@ -81,7 +81,7 @@
         </div>
 
         <!-- Основной контент квеста -->
-        <div id="quest-container" class="hidden flex-grow container mx-auto px-4 py-8 mt-16">
+        <div id="quest-container" class="hidden flex-grow container mx-auto px-4 py-8 mt-16 mobile-quest">
             
             <!-- Этап 1 -->
             <div id="stage-1" class="quest-stage hidden">
@@ -735,7 +735,7 @@ def get_user_data(username):
             </div>
             
             <!-- Навигация -->
-            <div id="navigation" class="hidden mt-12 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div id="navigation" class="hidden mt-12 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 mobile-nav">
                 <button id="prev-btn" class="nav-btn">
                     <i class="fas fa-arrow-left mr-2"></i>Назад
                 </button>
