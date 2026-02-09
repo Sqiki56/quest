@@ -805,4 +805,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
     }
+
+    function preventBodyScroll(event) {
+        if (document.body.classList.contains('modal-open')) {
+            event.preventDefault();
+            return false;
+        }
+    }
 });
+
+document.addEventListener('touchmove', preventBodyScroll, { passive: false });
+document.addEventListener('wheel', preventBodyScroll, { passive: false });
