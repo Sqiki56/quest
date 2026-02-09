@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let hintsLeft = 3;
     let puzzleAnswers = {
         1: "this is a secret message: Counter Program Flower Inn 2024 Just want to see you when you get the real thing",
-        2: "login-4", // techie
+        2: "login-4", // tech3guru
         3: ["vuln-1", "vuln-3"], // Правильные ответы для чекбоксов
         4: "algo-2", // Алгоритм разрешает доступ из внутренней сети в ночное время
         5: "dmitry" // Дмитрий Иванов
@@ -104,10 +104,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Подсказки для каждого этапа
     const hints = {
         1: "Шифр Цезаря со сдвигом +1: каждая буква заменена на следующую в алфавите. Например, 'U' становится 'T', 'i' становится 'h'. Первая строка расшифровывается как 'This is a secret message: Counter Program'.",
-        2: "Логин состоит из 6 букв и содержит подстроку 'tech'. Сравни все варианты: 'admin' (5 букв), 'user1' (4 буквы + цифра), 'user2' (4 буквы + цифра), 'techie' (6 букв, содержит 'tech'), 'developer' (9 букв).",
+        2: "Проверь все критерии: 8 символов, содержит tech, содержит цифру 3, последний символ — буква. Из вариантов подходит только один.",
         3: "Смотри на строки с кодом. В функции check_password пароль сравнивается с хешем напрямую - это опасно. В функции get_user_data имя пользователя вставляется прямо в SQL-запрос - это позволяет SQL-инъекции.",
         4: "Преступник имел IP из внутренней сети (192.168.1.25) и атаковал в ночное время (02:47). Согласно алгоритму, это удовлетворяет условию 'внутренняя сеть И ночное время', поэтому доступ был разрешен даже без прав администратора.",
-        5: "Сопоставь все улики: IP 192.168.1.25 соответствует рабочей станции Дмитрия, логин 'techie' - его учетная запись, время 02:47 - он мог остаться после работы, знание уязвимостей - как администратор сети он знал о проблемах в системе."
+        5: "Сопоставь все улики: IP 192.168.1.25 соответствует рабочей станции Дмитрия, логин 'tech3guru' - его учетная запись, время 02:47 - он мог остаться после работы, знание уязвимостей - как администратор сети он знал о проблемах в системе."
     };
     
     // Инициализация
@@ -359,8 +359,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="flex items-center">
                         <i class="fas fa-check-circle text-2xl text-green-400 mr-3"></i>
                         <div>
-                            <h4 class="font-bold text-green-300">Верно! Логин восстановлен: "techie"</h4>
-                            <p class="mt-2">Логин соответствует всем условиям.</p>
+                            <h4 class="font-bold text-green-300">Верно! Логин восстановлен: "tech3guru"</h4>
+                            <p class="mt-2">Логин удовлетворяет всем критериям:</p>
+                            <ul class="mt-2 space-y-1 text-sm">
+                                <li>✓ 8 символов: "tech3guru"</li>
+                                <li>✓ Содержит "tech"</li>
+                                <li>✓ Содержит цифру "3"</li>
+                                <li>✓ Последний символ "u" — буква</li>
+                                <li>✓ Сумма цифр = 3 (только одна цифра 3)</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -558,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <h4 class="font-bold text-green-300">Верно! Преступник - Дмитрий Иванов.</h4>
                             <div class="mt-3 space-y-2">
                                 <p>✓ Его IP: 192.168.1.25</p>
-                                <p>✓ Его логин: "techie"</p>
+                                <p>✓ Его логин: "tech3guru"</p>
                                 <p>✓ Знал об уязвимостях в системе</p>
                             </div>
                         </div>
@@ -571,20 +578,29 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Анимация доски улик
             const connectionNodes = document.querySelectorAll('.connection-node');
+            const connectionLines = document.querySelectorAll('.connection-line');
+
             connectionNodes.forEach((node, index) => {
                 setTimeout(() => {
                     node.style.transform = 'scale(1.2)';
                     node.style.boxShadow = '0 10px 30px rgba(0, 179, 255, 0.6)';
-                }, 300 + index * 300);
+                }, 500 + index * 300);
             });
             
+            connectionLines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.width = '25%';
+                    line.style.opacity = '1';
+                }, 300 + index * 200);
+            });
+
             setTimeout(() => {
                 const center = document.querySelector('.connection-center');
                 if (center) {
                     center.style.transform = 'translate(-50%, -50%) scale(1.2)';
                     center.style.boxShadow = '0 15px 40px rgba(0, 179, 255, 0.7)';
                 }
-            }, 1500);
+            }, 2000);
             
             document.querySelectorAll('.suspect-select').forEach(select => {
                 select.style.pointerEvents = 'none';

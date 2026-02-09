@@ -182,63 +182,73 @@
                         <div class="evidence-card">
                             <div class="evidence-header">
                                 <i class="fas fa-database"></i>
-                                <h3>Поврежденный файл: <span class="text-cyber-green">access_log.txt</span></h3>
+                                <div>
+                                    <h3>Поврежденный файл: <span class="text-cyber-green">access_log.txt</span></h3>
+                                </div>
                             </div>
                             <div class="evidence-content">
                                 <div class="corrupted-data">
-                                    <p class="mb-2">Файл содержит записи о доступе к системе:</p>
-                                    <div class="log-entries bg-gray-900 p-4 rounded-lg">
-                                        <div class="log-entry">2024-05-15 14:23:11 | admin | успешно</div>
-                                        <div class="log-entry">2024-05-15 14:30:45 | user1 | ошибка</div>
-                                        <div class="log-entry damaged">2024-05-15 02:47:22 | ███████ | успешно</div>
-                                        <div class="log-entry">2024-05-15 08:15:33 | user2 | успешно</div>
+                                    <p class="mb-4">Файл логов повреждён, но сохранились фрагменты. Известно, что преступник использовал логин, соответствующий следующим критериям:</p>
+                                    
+                                    <div class="p-4 bg-gray-900/50 rounded-lg border border-gray-700 mb-4">
+                                        <h4 class="font-bold text-cyber-yellow mb-2">Критерии логина:</h4>
+                                        <ol class="list-decimal list-inside space-y-1 ml-2">
+                                            <li>Длина логина: <strong>8 символов</strong></li>
+                                            <li>Содержит подстроку: <strong>"tech"</strong></li>
+                                            <li>Содержит цифру: <strong>"3"</strong></li>
+                                            <li>Последний символ: <strong>буква</strong></li>
+                                            <li>Сумма цифр в логине: <strong>3</strong> (только одна цифра "3")</li>
+                                        </ol>
                                     </div>
-                                    <p class="mt-4">Запись в 02:47:22 повреждена. Известно, что логин состоит из 6 букв и содержит подстроку "tech".</p>
-                                </div>
-                                <div class="clue-hint mt-4">
-                                    <i class="fas fa-lightbulb text-yellow-400 mr-3 text-xl"></i>
-                                    <div>
-                                        <span class="font-bold text-yellow-300">Подсказка:</span>
-                                        <p class="mt-1 text-gray-300">Логин состоит из 6 букв, содержит "tech". В базе данных есть пользователи: admin, user1, user2, <strong>techie</strong>, developer, security.</p>
+
+                                    <div class="log-entries bg-gray-900 p-4 rounded-lg mb-4">
+                                        <div class="log-entry">2024-05-15 14:23:11 | admin_01 | успешно</div>
+                                        <div class="log-entry">2024-05-15 14:30:45 | user_tech | успешно</div>
+                                        <div class="log-entry damaged">2024-05-15 02:47:22 | ████████ | ошибка</div>
+                                        <div class="log-entry">2024-05-15 08:15:33 | tech3user | успешно (другой IP)</div>
+                                        <div class="log-entry">2024-05-15 10:20:15 | developer | успешно</div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
                         
                         <div class="puzzle-card mt-6">
-                            <h3 class="text-xl font-bold mb-4">Задача: восстанови логин</h3>
-                            <p class="mb-4">Используя подсказки, определи какой логин был использован в 02:47:22:</p>
+                            <div class="flex items-center mb-4">
+                                <h3 class="text-xl font-bold">Задача: восстанови логин</h3>
+                            </div>
+                            <p class="mb-4">Используя критерии восстановления, определи какой логин был использован в 02:47:22:</p>
                             
                             <div class="puzzle-input">
                                 <div class="space-y-3 mb-6">
                                     <div class="login-option">
                                         <input type="radio" name="login" id="login-1" class="login-radio">
-                                        <label for="login-1" class="login-label">admin</label>
+                                        <label for="login-1" class="login-label">admin_01</label>
                                     </div>
                                     <div class="login-option">
                                         <input type="radio" name="login" id="login-2" class="login-radio">
-                                        <label for="login-2" class="login-label">user1</label>
+                                        <label for="login-2" class="login-label">user_tech</label>
                                     </div>
                                     <div class="login-option">
                                         <input type="radio" name="login" id="login-3" class="login-radio">
-                                        <label for="login-3" class="login-label">user2</label>
+                                        <label for="login-3" class="login-label">tech3user</label>
                                     </div>
                                     <div class="login-option">
                                         <input type="radio" name="login" id="login-4" class="login-radio">
-                                        <label for="login-4" class="login-label">techie</label>
+                                        <label for="login-4" class="login-label">tech3guru</label>
                                     </div>
                                     <div class="login-option">
                                         <input type="radio" name="login" id="login-5" class="login-radio">
                                         <label for="login-5" class="login-label">developer</label>
                                     </div>
                                 </div>
-                                
-                                <button id="puzzle-2-check" class="puzzle-check-btn">
-                                    <i class="fas fa-search mr-2"></i>Проверить логин
-                                </button>
-                                <div id="puzzle-2-feedback" class="mt-4 hidden"></div>
                             </div>
                             
+                            <button id="puzzle-2-check" class="puzzle-check-btn">
+                                <i class="fas fa-search mr-2"></i>Проверить логин
+                            </button>
+                            <div id="puzzle-2-feedback" class="mt-4 hidden"></div>
+
                             <div class="skill-hint mt-6">
                                 <span class="skill-badge isit">ИСиТ</span>
                                 <p class="text-sm mt-2">Восстановление поврежденных данных и анализ логов — важный навык для специалистов по информационным системам</p>
@@ -260,45 +270,43 @@
                                     </div>
                                     <div class="db-row">
                                         <span class="db-value">1</span>
-                                        <span class="db-value">admin</span>
+                                        <span class="db-value">admin_01</span>
                                         <span class="db-value">Администратор</span>
                                     </div>
                                     <div class="db-row">
                                         <span class="db-value">2</span>
-                                        <span class="db-value">user1</span>
+                                        <span class="db-value">user_tech</span>
                                         <span class="db-value">Пользователь</span>
                                     </div>
                                     <div class="db-row">
                                         <span class="db-value">3</span>
-                                        <span class="db-value">user2</span>
+                                        <span class="db-value">tech3user</span>
                                         <span class="db-value">Пользователь</span>
                                     </div>
-                                    <div class="db-row highlight">
+                                    <div class="db-row">
                                         <span class="db-value">4</span>
-                                        <span class="db-value">techie</span>
-                                        <span class="db-value">Технический специалист</span>
+                                        <span class="db-value">developer</span>
+                                        <span class="db-value">Разработчик</span>
                                     </div>
                                     <div class="db-row">
                                         <span class="db-value">5</span>
-                                        <span class="db-value">developer</span>
-                                        <span class="db-value">Разработчик</span>
+                                        <span class="db-value">tech3guru</span>
+                                        <span class="db-value">Технический специалист</span>
+                                    </div>
+                                    <div class="db-row">
+                                        <span class="db-value">6</span>
+                                        <span class="db-value">security2</span>
+                                        <span class="db-value">Специалист по безопасности</span>
+                                    </div>
+                                    <div class="db-row">
+                                        <span class="db-value">7</span>
+                                        <span class="db-value">netadmin</span>
+                                        <span class="db-value">Системный администратор</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="case-facts mt-8">
-                            <h4 class="text-lg font-bold mb-3">Подсказка:</h4>
-                            <div class="bg-gray-800 p-4 rounded-lg">
-                                <p>Анализ записей:</p>
-                                <ul class="mt-2 space-y-1">
-                                    <li>✓ Время соответствует времени кражи (02:47)</li>
-                                    <li>✓ Доступ был успешным</li>
-                                    <li>✓ Логин состоит из 6 букв</li>
-                                    <li>✓ Содержит подстроку "tech"</li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -321,7 +329,6 @@
                             <div class="evidence-content">
                                 <div class="code-snippet">
                                     <pre><code>def check_password(user_input, stored_hash):
-    # Уязвимость здесь!
     if user_input == stored_hash:
         return True
     return False
@@ -452,17 +459,26 @@ def get_user_data(username):
                                     <p class="mb-4">В логах обнаружен алгоритм, который использовал преступник:</p>
                                     <div class="algorithm bg-gray-800 p-4 rounded-lg mb-4">
                                         <p class="font-mono text-sm">
-                                            1. Если пользователь из внутренней сети (192.168.x.x) И время между 00:00 и 06:00<br>
-                                            2. ИЛИ если пользователь имеет права администратора<br>
-                                            3. ТО доступ разрешен<br>
-                                            4. ИНАЧЕ доступ запрещен
+                                            <span class="text-cyber-blue">АЛГОРИТМ ПРОВЕРКИ ДОСТУПА:</span><br><br>
+                                            1. ЕСЛИ пользователь из внутренней сети (192.168.x.x)<br>
+                                            &nbsp;&nbsp;&nbsp;ЕСЛИ время между 00:00 и 06:00<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ТО доступ разрешён<br>
+                                            &nbsp;&nbsp;&nbsp;ИНАЧЕ ЕСЛИ пользователь имеет права администратора<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ТО доступ разрешён<br>
+                                            &nbsp;&nbsp;&nbsp;ИНАЧЕ доступ запрещён<br>
+                                            2. ИНАЧЕ ЕСЛИ пользователь из доверенной сети (10.0.x.x)<br>
+                                            &nbsp;&nbsp;&nbsp;ЕСЛИ двухфакторная аутентификация пройдена<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ТО доступ разрешён<br>
+                                            &nbsp;&nbsp;&nbsp;ИНАЧЕ доступ запрещён<br>
+                                            3. ИНАЧЕ доступ запрещён
                                         </p>
                                     </div>
                                     <p class="mb-2">Известные факты:</p>
                                     <ul class="space-y-1">
                                         <li>✓ IP преступника: 192.168.1.25 (внутренняя сеть)</li>
                                         <li>✓ Время атаки: 02:47 (между 00:00 и 06:00)</li>
-                                        <li>✓ Преступник использовал учетную запись без прав администратора</li>
+                                        <li>✓ Использован логин "tech3guru" без прав администратора</li>
+                                        <li>✓ Двухфакторная аутентификация не требовалась</li>
                                         <li>✓ Доступ был получен успешно</li>
                                     </ul>
                                 </div>
@@ -478,19 +494,25 @@ def get_user_data(username):
                                     <div class="algorithm-option">
                                         <input type="radio" name="algorithm" id="algo-1" class="algorithm-radio">
                                         <label for="algo-1" class="algorithm-label">
-                                            Отсутствует проверка сложности пароля
+                                            Алгоритм не проверяет MAC-адрес устройства
                                         </label>
                                     </div>
                                     <div class="algorithm-option">
                                         <input type="radio" name="algorithm" id="algo-2" class="algorithm-radio">
                                         <label for="algo-2" class="algorithm-label">
-                                            Алгоритм разрешает доступ из внутренней сети в ночное время без дополнительных проверок
+                                            Для внутренней сети в ночное время проверка прав администратора пропускается
                                         </label>
                                     </div>
                                     <div class="algorithm-option">
                                         <input type="radio" name="algorithm" id="algo-3" class="algorithm-radio">
                                         <label for="algo-3" class="algorithm-label">
-                                            Отсутствует двухфакторная аутентификация
+                                            Отсутствует проверка геолокации пользователя
+                                        </label>
+                                    </div>
+                                     <div class="algorithm-option">
+                                        <input type="radio" name="algorithm" id="algo-4" class="algorithm-radio">
+                                        <label for="algo-4" class="algorithm-label">
+                                            Алгоритм слишком сложный и должен быть упрощен
                                         </label>
                                     </div>
                                 </div>
@@ -581,7 +603,7 @@ def get_user_data(username):
                                         <div class="timeline-marker"></div>
                                         <div class="timeline-content">
                                             <h4 class="font-bold text-cyber-green">Улика 2: Логи доступа</h4>
-                                            <p class="text-sm">В 02:47 успешный вход под логином "techie" с IP 192.168.1.25</p>
+                                            <p class="text-sm">В 02:47 успешный вход под логином "tech3guru" с IP 192.168.1.25</p>
                                         </div>
                                     </div>
                                     <div class="timeline-item">
@@ -639,8 +661,8 @@ def get_user_data(username):
                                             </div>
                                             <div class="suspect-info">
                                                 <p>• IP рабочей станции: 192.168.1.25</p>
-                                                <p>• Логин в системе: "techie"</p>
                                                 <p>• Знает об уязвимостях в системе</p>
+                                                <p>• Участвовал в разработке алгоритма доступа</p>
                                             </div>
                                         </div>
                                     </div>
@@ -686,24 +708,27 @@ def get_user_data(username):
                     <div>
                         <div class="case-visual">
                             <div class="evidence-connections">
-                                <div class="connection-node message" data-tooltip="Зашифрованное сообщение">
+                                <!-- Узлы -->
+                                <div class="connection-node" data-tooltip="Зашифрованное сообщение">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <div class="connection-node logs" data-tooltip="Логи доступа">
+                                <div class="connection-node" data-tooltip="Логи доступа">
                                     <i class="fas fa-clipboard-list"></i>
                                 </div>
-                                <div class="connection-node code" data-tooltip="Уязвимый код">
+                                <div class="connection-node" data-tooltip="Уязвимый код">
                                     <i class="fas fa-code"></i>
                                 </div>
-                                <div class="connection-node algorithm" data-tooltip="Алгоритм доступа">
+                                <div class="connection-node" data-tooltip="Алгоритм доступа">
                                     <i class="fas fa-project-diagram"></i>
                                 </div>
                                 
-                                <div class="connection-line line-1"></div>
-                                <div class="connection-line line-2"></div>
-                                <div class="connection-line line-3"></div>
-                                <div class="connection-line line-4"></div>
+                                <!-- Линии (добавляем их как отдельные элементы) -->
+                                <div class="connection-line"></div>
+                                <div class="connection-line"></div>
+                                <div class="connection-line"></div>
+                                <div class="connection-line"></div>
                                 
+                                <!-- Центр -->
                                 <div class="connection-center">
                                     <i class="fas fa-user-secret"></i>
                                     <div class="center-label">Преступник</div>
