@@ -790,9 +790,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function showDetails() {
         infoModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
+        
+        // Фокус на кнопке закрытия для доступности
+        setTimeout(() => {
+            const closeBtn = document.getElementById('close-modal');
+            if (closeBtn) closeBtn.focus();
+        }, 100);
     }
-    
+
     function hideDetails() {
         infoModal.classList.add('hidden');
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
     }
 });

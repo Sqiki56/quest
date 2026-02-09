@@ -1587,6 +1587,18 @@ body {
         max-height: 85vh !important;
     }
     
+    .info-modal-body {
+    overscroll-behavior: contain; /* Предотвращает скролл основной страницы */
+    -webkit-overflow-scrolling: touch;
+    }
+
+    /* Убираем скролл у body когда модальное открыто */
+    body:has(#info-modal:not(.hidden)) {
+        overflow: hidden !important;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
     /* Информация о направлениях */
     .specialty-info {
         margin-bottom: 30px !important;
@@ -1779,6 +1791,12 @@ select:focus {
     
     .hint-modal-body {
         -webkit-overflow-scrolling: touch;
+    }
+
+    body.modal-open {
+        position: fixed;
+        width: 100%;
+        height: 100%;
     }
 }
 
