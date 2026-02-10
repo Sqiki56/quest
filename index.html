@@ -532,29 +532,88 @@ def get_user_data(username):
                     
                     <div>
                         <div class="case-visual">
-                            <div class="logic-flowchart">
-                                <div class="flowchart-start">
-                                    <div class="flowchart-node">
-                                        <i class="fas fa-play text-cyber-blue"></i>
-                                        <span>Начало проверки</span>
+                            <div class="logic-table">
+                                <div class="table-header">
+                                    <i class="fas fa-table text-cyber-blue mr-2"></i>
+                                    <span>Логика алгоритма проверки доступа</span>
+                                </div>
+                                
+                                <div class="table-container">
+                                    <div class="table-row header">
+                                        <div class="table-cell">Условие</div>
+                                        <div class="table-cell">Значение</div>
+                                        <div class="table-cell">Результат</div>
+                                    </div>
+                                    
+                                    <div class="table-row">
+                                        <div class="table-cell condition">
+                                            <i class="fas fa-network-wired mr-2"></i>
+                                            <span>Внутренняя сеть (192.168.x.x)</span>
+                                        </div>
+                                        <div class="table-cell value true">
+                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                            <span>Да (192.168.1.25)</span>
+                                        </div>
+                                        <div class="table-cell result">
+                                            <span class="status-dot green"></span>
+                                            <span>Проходит проверку</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="table-row highlight">
+                                        <div class="table-cell condition">
+                                            <i class="fas fa-clock mr-2"></i>
+                                            <span>Ночное время (00:00-06:00)</span>
+                                        </div>
+                                        <div class="table-cell value true">
+                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                            <span>Да (02:47)</span>
+                                        </div>
+                                        <div class="table-cell result bug">
+                                            <span class="status-dot pink"></span>
+                                            <span>Доступ разрешён!</span>
+                                            <div class="bug-label">БАГ</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="table-row">
+                                        <div class="table-cell condition">
+                                            <i class="fas fa-user-shield mr-2"></i>
+                                            <span>Права администратора</span>
+                                        </div>
+                                        <div class="table-cell value false">
+                                            <i class="fas fa-times-circle text-red-400 mr-2"></i>
+                                            <span>Нет (tech3guru)</span>
+                                        </div>
+                                        <div class="table-cell result skipped">
+                                            <span class="status-dot gray"></span>
+                                            <span>Проверка пропущена</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="table-row">
+                                        <div class="table-cell condition">
+                                            <i class="fas fa-shield-alt mr-2"></i>
+                                            <span>Двухфакторная аутентификация</span>
+                                        </div>
+                                        <div class="table-cell value false">
+                                            <i class="fas fa-times-circle text-red-400 mr-2"></i>
+                                            <span>Не требуется</span>
+                                        </div>
+                                        <div class="table-cell result">
+                                            <span class="status-dot gray"></span>
+                                            <span>Не проверяется</span>
+                                        </div>
                                     </div>
                                 </div>
                                 
-                                <div class="flowchart-connector down"></div>
-                                
-                                <div class="flowchart-condition">
-                                    <div class="flowchart-node condition">
-                                        <i class="fas fa-question text-cyber-purple"></i>
-                                        <span>Внутренняя сеть И ночное время?</span>
+                                <div class="table-summary">
+                                    <div class="summary-icon">
+                                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
                                     </div>
-                                </div>
-                                
-                                <div class="flowchart-connector down"></div>
-                                
-                                <div class="flowchart-action allowed">
-                                    <div class="flowchart-node action">
-                                        <i class="fas fa-check-circle text-cyber-green"></i>
-                                        <span>Доступ разрешен</span>
+                                    <div class="summary-text">
+                                        <h4>Обнаруженная уязвимость:</h4>
+                                        <p>Если первые два условия выполняются, проверка прав администратора пропускается!</p>
                                     </div>
                                 </div>
                             </div>
@@ -707,31 +766,109 @@ def get_user_data(username):
                     
                     <div>
                         <div class="case-visual">
-                            <div class="evidence-connections">
-                                <!-- Узлы -->
-                                <div class="connection-node" data-tooltip="Зашифрованное сообщение">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div class="connection-node" data-tooltip="Логи доступа">
-                                    <i class="fas fa-clipboard-list"></i>
-                                </div>
-                                <div class="connection-node" data-tooltip="Уязвимый код">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="connection-node" data-tooltip="Алгоритм доступа">
-                                    <i class="fas fa-project-diagram"></i>
+                            <!-- Сводка ключевых улик -->
+                            <div class="evidence-summary">
+                                <div class="summary-header">
+                                    <i class="fas fa-clipboard-check text-cyber-blue mr-2"></i>
+                                    <span>Сводка ключевых улик</span>
                                 </div>
                                 
-                                <!-- Линии (добавляем их как отдельные элементы) -->
-                                <div class="connection-line"></div>
-                                <div class="connection-line"></div>
-                                <div class="connection-line"></div>
-                                <div class="connection-line"></div>
+                                <div class="summary-items">
+                                    <div class="summary-item critical">
+                                        <div class="item-icon">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Ключевая улика #1</h4>
+                                            <p>Точное совпадение IP-адреса: <strong>192.168.1.25</strong></p>
+                                            <div class="item-note">Уникальный идентификатор рабочей станции</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="summary-item critical">
+                                        <div class="item-icon">
+                                            <i class="fas fa-user-circle"></i>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Ключевая улика #2</h4>
+                                            <p>Учетная запись: <strong>tech3guru</strong></p>
+                                            <div class="item-note">Использовалась в момент кражи</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="summary-item important">
+                                        <div class="item-icon">
+                                            <i class="fas fa-code"></i>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Улика #3</h4>
+                                            <p>Глубокое знание системы безопасности</p>
+                                            <div class="item-note">Понимание уязвимостей в коде и алгоритмах</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="summary-item important">
+                                        <div class="item-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Улика #4</h4>
+                                            <p>Доступ в нерабочее время</p>
+                                            <div class="item-note">02:47 — после окончания рабочего дня</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Блок с мотивацией -->
+                            <div class="motive-analysis mt-6">
+                                <div class="motive-header">
+                                    <i class="fas fa-brain text-cyber-purple mr-2"></i>
+                                    <span>Анализ возможных мотивов</span>
+                                </div>
                                 
-                                <!-- Центр -->
-                                <div class="connection-center">
-                                    <i class="fas fa-user-secret"></i>
-                                    <div class="center-label">Преступник</div>
+                                <div class="motive-content">
+                                    <div class="motive-item">
+                                        <h4>Финансовый мотив</h4>
+                                        <p>Артефакт "Криптекс знаний" имеет высокую рыночную стоимость для коллекционеров цифровых артефактов.</p>
+                                    </div>
+                                    
+                                    <div class="motive-item">
+                                        <h4>Профессиональный мотив</h4>
+                                        <p>Знание уязвимостей системы могло быть использовано для доказательства необходимости улучшений или для шантажа.</p>
+                                    </div>
+                                    
+                                    <div class="motive-item">
+                                        <h4>Личный мотив</h4>
+                                        <p>Сообщение "Counter Program Flower Inn 2024" может указывать на личную связь с мероприятием или местом.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Быстрые факты -->
+                            <div class="quick-facts mt-6">
+                                <div class="facts-header">
+                                    <i class="fas fa-bolt text-cyber-yellow mr-2"></i>
+                                    <span>Быстрые факты</span>
+                                </div>
+                                
+                                <div class="facts-grid">
+                                    <div class="fact-item">
+                                        <i class="fas fa-network-wired"></i>
+                                        <span>Внутренняя сеть</span>
+                                    </div>
+                                    <div class="fact-item">
+                                        <i class="fas fa-user-shield"></i>
+                                        <span>Админ доступ</span>
+                                    </div>
+                                    <div class="fact-item">
+                                        <i class="fas fa-history"></i>
+                                        <span>Ночное время</span>
+                                    </div>
+                                    <div class="fact-item">
+                                        <i class="fas fa-fingerprint"></i>
+                                        <span>Уникальный ID</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
