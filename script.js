@@ -655,7 +655,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         resultContent.innerHTML = `
-            <div class="result-card ${resultType === 'isit' ? 'isit-result' : resultType === 'bist' ? 'bist-result' : ''}">
+            <div class="result-card ${resultType === 'isit' ? 'isit-result' : resultType === 'bist' ? 'bist-result' : 'balanced-result'}">
                 <div class="result-icon ${resultColor}">
                     <i class="${resultIcon}"></i>
                 </div>

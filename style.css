@@ -2373,3 +2373,230 @@ body.modal-open {
         font-size: 0.8rem;
     }
 }
+
+/* =========================== */
+/* УНИВЕРСАЛЬНЫЙ СПЕЦИАЛИСТ - НОВЫЙ ДИЗАЙН */
+/* =========================== */
+
+.balanced-result {
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 46, 0.98), 
+        rgba(22, 33, 62, 0.98)
+    );
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Градиентная рамка */
+.balanced-result::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        45deg,
+        var(--cyber-green),
+        var(--cyber-blue),
+        var(--cyber-purple),
+        var(--cyber-pink),
+        var(--cyber-yellow),
+        var(--cyber-green)
+    );
+    background-size: 400% 400%;
+    border-radius: 22px; /* На 2px больше, чем у основного блока */
+    z-index: -1;
+    animation: border-glow 6s ease infinite;
+}
+
+@keyframes border-glow {
+    0%, 100% {
+        background-position: 0% 50%;
+        opacity: 0.8;
+    }
+    50% {
+        background-position: 100% 50%;
+        opacity: 1;
+    }
+}
+
+/* Внутренний свечение */
+.balanced-result::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 179, 255, 0.1) 0%,
+        transparent 70%
+    );
+    z-index: 0;
+}
+
+.balanced-result > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Заголовок с градиентом */
+.balanced-result .result-title {
+    background: linear-gradient(90deg, 
+        var(--cyber-green) 0%,
+        var(--cyber-blue) 33%,
+        var(--cyber-purple) 66%,
+        var(--cyber-pink) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: text-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes text-shimmer {
+    0%, 100% {
+        background-position: 0% center;
+    }
+    50% {
+        background-position: 100% center;
+    }
+}
+
+/* Иконка звезды */
+.balanced-result .result-icon {
+    color: var(--cyber-blue);
+    position: relative;
+}
+
+.balanced-result .result-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(
+        circle,
+        rgba(0, 179, 255, 0.2) 0%,
+        transparent 70%
+    );
+    z-index: -1;
+    animation: pulse-star 4s ease-in-out infinite;
+}
+
+@keyframes pulse-star {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Звезда вращается */
+.balanced-result .fa-star {
+    animation: star-rotate 20s linear infinite;
+}
+
+@keyframes star-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Бейджи навыков */
+.balanced-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.balanced-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.balanced-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 179, 255, 0.3);
+    border-color: var(--cyber-blue);
+}
+
+.balanced-badge:hover::before {
+    left: 100%;
+}
+
+/* Инфо-блок */
+.balanced-result .bg-gradient-to-r {
+    background: linear-gradient(90deg,
+        rgba(0, 255, 157, 0.1),
+        rgba(0, 179, 255, 0.1),
+        rgba(157, 78, 221, 0.1)
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+/* Прогресс-бары */
+.balanced-result .stat-item {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.balanced-result .stat-value {
+    text-shadow: 0 0 10px currentColor;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .balanced-result {
+        padding: 20px !important;
+        margin: 10px !important;
+    }
+    
+    .balanced-result::before {
+        border-radius: 20px;
+    }
+    
+    .balanced-badge {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .balanced-result .result-icon::before {
+        width: 80px;
+        height: 80px;
+    }
+}
