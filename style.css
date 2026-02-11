@@ -776,26 +776,26 @@ body {
 }
 
 .connection-node.message {
-    top: 20%;
-    left: 15%;
+    top: 15%;
+    left: 10%;
     background: linear-gradient(135deg, var(--cyber-purple), #6a11cb);
 }
 
 .connection-node.logs {
-    top: 20%;
-    right: 15%;
+    top: 15%;
+    right: 10%;
     background: linear-gradient(135deg, var(--cyber-green), #00b09b);
 }
 
 .connection-node.code {
-    bottom: 20%;
-    left: 15%;
+    bottom: 15%;
+    left: 10%;
     background: linear-gradient(135deg, var(--cyber-pink), #ff416c);
 }
 
 .connection-node.algorithm {
-    bottom: 20%;
-    right: 15%;
+    bottom: 15%;
+    right: 10%;
     background: linear-gradient(135deg, var(--cyber-yellow), #ffb347);
 }
 
@@ -868,42 +868,80 @@ body {
 
 .connection-line {
     position: absolute;
-    background: var(--cyber-blue);
-    height: 2px;
     z-index: 1;
-    transform-origin: 0 0;
+    pointer-events: none;
+}
+.connection-center::before,
+.connection-center::after,
+.connection-node.message::before,
+.connection-node.logs::before,
+.connection-node.code::before,
+.connection-node.algorithm::before {
+    content: '';
+    position: absolute;
+    background: var(--cyber-blue);
+    z-index: 1;
 }
 
-/* Линия 1: от центра к верхнему левому узлу */
-.connection-line:nth-child(5) {
-    top: 50%;
-    left: 50%;
-    width: 20%;
-    transform: translate(-100%, -100%) rotate(-135deg);
+/* Линии от центра к узлам */
+.connection-center::before {
+    /* Линия к message (верхний левый) */
+    width: 25%;
+    height: 2px;
+    top: 30%;
+    left: 30%;
+    transform: rotate(-135deg);
+    transform-origin: left center;
 }
 
-/* Линия 2: от центра к верхнему правому узлу */
-.connection-line:nth-child(6) {
-    top: 50%;
-    left: 50%;
-    width: 20%;
-    transform: translate(0, -100%) rotate(-45deg);
+.connection-center::after {
+    /* Линия к logs (верхний правый) */
+    width: 25%;
+    height: 2px;
+    top: 30%;
+    right: 30%;
+    transform: rotate(135deg);
+    transform-origin: right center;
 }
 
-/* Линия 3: от центра к нижнему левому узлу */
-.connection-line:nth-child(7) {
+.connection-node.message::before {
+    /* Линия от message к центру */
+    width: 25%;
+    height: 2px;
     top: 50%;
-    left: 50%;
-    width: 20%;
-    transform: translate(-100%, 0) rotate(135deg);
+    left: 100%;
+    transform: rotate(45deg);
+    transform-origin: left center;
 }
 
-/* Линия 4: от центра к нижнему правому узлу */
-.connection-line:nth-child(8) {
+.connection-node.logs::before {
+    /* Линия от logs к центру */
+    width: 25%;
+    height: 2px;
     top: 50%;
-    left: 50%;
-    width: 20%;
-    transform: translate(0, 0) rotate(45deg);
+    right: 100%;
+    transform: rotate(-45deg);
+    transform-origin: right center;
+}
+
+.connection-node.code::before {
+    /* Линия от code к центру */
+    width: 25%;
+    height: 2px;
+    top: 50%;
+    left: 100%;
+    transform: rotate(-45deg);
+    transform-origin: left center;
+}
+
+.connection-node.algorithm::before {
+    /* Линия от algorithm к центру */
+    width: 25%;
+    height: 2px;
+    top: 50%;
+    right: 100%;
+    transform: rotate(45deg);
+    transform-origin: right center;
 }
 
 /* Таймлайн улик */
@@ -1592,13 +1630,16 @@ body {
         height: 1.5px;
     }
     
-    .connection-line:nth-child(5),
-    .connection-line:nth-child(6),
-    .connection-line:nth-child(7),
-    .connection-line:nth-child(8) {
-        width: 15%;
+    .connection-center::before,
+    .connection-center::after,
+    .connection-node.message::before,
+    .connection-node.logs::before,
+    .connection-node.code::before,
+    .connection-node.algorithm::before {
+        height: 1.5px;
+        width: 20%;
     }
-    
+
     /* Исправляем сетку для мобильных */
     .grid.md\\:grid-cols-2 {
         grid-template-columns: 1fr !important;
