@@ -44,25 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Делаем подсказки более заметными на мобильных
-        const originalShowNextStepHint = window.showNextStepHint;
-        if (originalShowNextStepHint) {
-            window.showNextStepHint = function(message) {
-                const hint = originalShowNextStepHint(message);
-                // Увеличиваем время показа подсказки на мобильных
-                if (hint.timeoutId) {
-                    clearTimeout(hint.timeoutId);
-                    hint.timeoutId = setTimeout(() => {
-                        if (hint.parentNode) {
-                            hint.style.opacity = '0';
-                            hint.style.transform = 'translate(-50%, 10px)';
-                            setTimeout(() => hint.remove(), 300);
-                        }
-                    }, 15000); // 15 секунд вместо 10
-                }
-                return hint;
-            };
-        }
         
         // Улучшаем обработку касаний
         document.addEventListener('touchstart', function() {}, {passive: true});
@@ -314,10 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
             answerInput.disabled = true;
             document.getElementById('puzzle-1-check').disabled = true;
             updateStageDots();
-            
-            setTimeout(() => {
-                showNextStepHint("Отлично! Теперь мы знаем, что преступник упоминает 'Counter Program Flower Inn 2024'. Перейдем к анализу логов доступа.");
-            }, 50);
+
         } else {
             feedback.innerHTML = `
                 <div class="p-4 bg-red-900 bg-opacity-30 border border-red-700 rounded-lg">
@@ -380,9 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('puzzle-2-check').disabled = true;
             updateStageDots();
             
-            setTimeout(() => {
-                showNextStepHint("Отлично! Преступник использовал логин 'techie'. Теперь нужно понять, как ему удалось обойти систему безопасности.");
-            }, 50);
         } else {
             feedback.innerHTML = `
                 <div class="p-4 bg-red-900 bg-opacity-30 border border-red-700 rounded-lg">
@@ -460,9 +435,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('puzzle-3-check').disabled = true;
             updateStageDots();
             
-            setTimeout(() => {
-                showNextStepHint("Отлично! Теперь мы знаем, как преступник взломал систему. Но как он получил доступ именно в 02:47?");
-            }, 50);
         } else {
             feedback.innerHTML = `
                 <div class="p-4 bg-red-900 bg-opacity-30 border border-red-700 rounded-lg">
@@ -517,10 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.algorithm-radio').forEach(radio => radio.disabled = true);
             document.getElementById('puzzle-4-check').disabled = true;
             updateStageDots();
-            
-            setTimeout(() => {
-                showNextStepHint("Отлично! Теперь у нас есть полная картина преступления. Осталось собрать все улики вместе.");
-            }, 50);
+
         } else {
             feedback.innerHTML = `
                 <div class="p-4 bg-red-900 bg-opacity-30 border border-red-700 rounded-lg">
@@ -650,40 +619,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
     
-    function showNextStepHint(message) {
-        const hintDiv = document.createElement('div');
-        hintDiv.className = 'fixed top-1/2 right-4 transform -translate-y-1/2 z-50 max-w-md w-11/12';
-        hintDiv.innerHTML = `
-            <div class="bg-gradient-to-r from-blue-900/90 to-cyan-900/90 border-l-4 border-cyan-400 p-4 rounded-lg shadow-xl">
-                <div class="flex items-start">
-                    <i class="fas fa-arrow-right text-cyan-300 mt-1 mr-3"></i>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-cyan-300 mb-1">Следующий шаг:</h4>
-                        <p class="text-gray-200 text-sm">${message}</p>
-                    </div>
-                    <button class="ml-3 text-cyan-300 hover:text-white close-next-hint-btn text-lg">
-                        &times;
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(hintDiv);
-        
-        hintDiv.querySelector('.close-next-hint-btn').addEventListener('click', function() {
-            hintDiv.style.opacity = '0';
-            hintDiv.style.transform = 'translate(-50%, 10px)';
-            setTimeout(() => hintDiv.remove(), 300);
-        });
-        
-        setTimeout(() => {
-            if (hintDiv.parentNode) {
-                hintDiv.style.opacity = '0';
-                hintDiv.style.transform = 'translate(-50%, 10px)';
-                setTimeout(() => hintDiv.remove(), 300);
-            }
-        }, 10000);
-    }
     
     function showResult() {
         questContainer.classList.add('hidden');
@@ -720,7 +655,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         resultContent.innerHTML = `
-            <div class="result-card ${resultType === 'isit' ? 'isit-result' : resultType === 'bist' ? 'bist-result' : ''}">
+            <div class="result-card ${resultType === 'isit' ? 'isit-result' : resultType === 'bist' ? 'bist-result' : 'balanced-result'}">
                 <div class="result-icon ${resultColor}">
                     <i class="${resultIcon}"></i>
                 </div>
@@ -822,13 +757,4 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
-    function preventBodyScroll(event) {
-        if (document.body.classList.contains('modal-open')) {
-            event.preventDefault();
-            return false;
-        }
-    }
 });
-
-document.addEventListener('touchmove', preventBodyScroll, { passive: false });
-document.addEventListener('wheel', preventBodyScroll, { passive: false });
